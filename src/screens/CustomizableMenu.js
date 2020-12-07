@@ -7,10 +7,13 @@ import {
     Platform,
     UIManager,
     LayoutAnimation,
+    TouchableHighlight,
 } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { width, height } from "../utils/theme";
 import { menuNames } from "../utils/data";
+import { useNavigation } from "@react-navigation/native";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import CustomizableMenuOverlay from "../components/CustomizableMenuOverlay";
 
@@ -22,31 +25,54 @@ if (Platform.OS === "android") {
 
 const ITEM_HEIGHT = 100;
 
-const Item = ({ name, isEditable, onDeletePress }) => {
+const Item = ({ name, isEditable, onDeletePress, onPress }) => {
     return (
-        <View style={styles.item}>
-            <Text style={styles.itemLabel}>{name}</Text>
-            {isEditable && (
-                <Icon
-                    style={[
-                        styles.deleteButton,
-                        Platform.OS === "android" && {
-                            backgroundColor: "#fff",
-                        },
-                    ]}
-                    size={30}
-                    name="delete"
-                    onPress={onDeletePress}
-                    color="tomato"
-                />
-            )}
-        </View>
+        <TouchableHighlight
+            style={styles.item}
+            underlayColor="#ddd"
+            activeOpacity={0.1}
+            onPress={onPress}
+        >
+            <>
+                <Text style={styles.itemLabel}>{name}</Text>
+                {isEditable && (
+                    <Icon
+                        style={[
+                            styles.deleteButton,
+                            Platform.OS === "android" && {
+                                backgroundColor: "#fff",
+                            },
+                        ]}
+                        size={30}
+                        name="delete"
+                        onPress={onDeletePress}
+                        color="tomato"
+                    />
+                )}
+            </>
+        </TouchableHighlight>
     );
 };
 
 const CustomizableMenu = () => {
+    const navigation = useNavigation();
+
     const [isEditable, setIsEditable] = useState(false);
     const [isNewItemSelectorOpen, setIsNewItemSelectorOpen] = useState(false);
+
+    const navigationExtractor = (itemName) => {
+        switch (itemName) {
+            case "Transportation":
+                return "WhereIsMyTransportation";
+            case "Reminder":
+                return "SetReminder";
+            case "Card":
+                return "CardOperations";
+            case "Settings":
+            default:
+                return null;
+        }
+    };
 
     const _onDeletePress = (name) => {
         Alert.alert(null, `${name} is removed from your menu.`);
@@ -59,6 +85,11 @@ const CustomizableMenu = () => {
 
     const _toggleItemSelector = () => {
         setIsNewItemSelectorOpen((prev) => !prev);
+    };
+
+    const _onItemPress = (itemName) => {
+        const destination = navigationExtractor(itemName);
+        destination && navigation.navigate(destination);
     };
 
     return (
@@ -128,6 +159,7 @@ const CustomizableMenu = () => {
                         name={name}
                         isEditable={isEditable}
                         onDeletePress={() => _onDeletePress(name)}
+                        onPress={() => _onItemPress(name)}
                     />
                 )}
                 numColumns={2}
