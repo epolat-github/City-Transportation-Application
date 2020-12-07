@@ -24,3 +24,14 @@ export const cardData = [
         cardNumber: 123123123123,
     },
 ];
+
+export const menuNames = [
+    "Transportation",
+    "Reminder",
+    "Card",
+    "Settings",
+    "Transportation",
+    "Reminder",
+    "Card",
+    "Settings",
+];

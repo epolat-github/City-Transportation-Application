@@ -16,7 +16,7 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigation = () => {
     return (
         <Drawer.Navigator
-            initialRouteName="WhereIsMyTransportation"
+            initialRouteName="CustomizableMenu"
             screenOptions={{ headerShown: true }}
             sceneContainerStyle={{ backgroundColor: "#fff" }}
         >
