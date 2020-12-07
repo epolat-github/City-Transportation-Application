@@ -29,12 +29,15 @@ const CardOperations = () => {
                 <Button
                     mode="contained"
                     onPress={() => setIsShowATMVisible(true)}
+                    icon="cash-usd"
                 >
                     Show ATMs
                 </Button>
                 <Button
                     mode="contained"
                     onPress={() => setIsAddCardVisible(true)}
+                    color="green"
+                    icon="card-bulleted-outline"
                 >
                     Add Card
                 </Button>

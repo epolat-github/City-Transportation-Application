@@ -4,6 +4,7 @@ import { Text, Button } from "react-native-paper";
 import { height, width, PRIMARY_COLOR } from "../utils/theme";
 import SetReminderOverlay from "../components/SetReminderOverlay";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import TypeSelector from "../components/TypeSelector";
 
 const reminderList = [
     {
@@ -31,8 +32,6 @@ const reminderList = [
         reminderTime: "09:30",
     },
 ];
-
-const typeList = ["Bus", "Subway"];
 
 const ReminderItem = ({ reminder }) => {
     return (
@@ -72,40 +71,10 @@ const SetReminder = () => {
                 submitAction={toggleOverlay}
                 cancelAction={toggleOverlay}
             />
-            <View style={styles.typeSelector}>
-                {typeList.map((type, index) => (
-                    <TouchableWithoutFeedback
-                        key={index}
-                        onPress={() => setSelectedType(index)}
-                    >
-                        <View
-                            style={[
-                                styles.typeSelectorButton,
-                                {
-                                    backgroundColor:
-                                        selectedType === index
-                                            ? PRIMARY_COLOR
-                                            : "#fff",
-                                },
-                            ]}
-                        >
-                            <Text
-                                style={[
-                                    styles.typeSelectorLabel,
-                                    {
-                                        color:
-                                            selectedType === index
-                                                ? "#fff"
-                                                : PRIMARY_COLOR,
-                                    },
-                                ]}
-                            >
-                                {type}
-                            </Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                ))}
-            </View>
+            <TypeSelector
+                selectedIndex={selectedType}
+                onPress={(index) => setSelectedType(index)}
+            />
             <View style={styles.remindersListContainer}>
                 {reminderList.map((reminder, index) => (
                     <ReminderItem
@@ -145,39 +114,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-evenly",
     },
-    typeSelector: {
-        alignSelf: "center",
-        flexDirection: "row",
-        width: width * 0.6,
-        height: 60,
-        backgroundColor: "red",
-        borderRadius: 30,
-        overflow: "hidden",
 
-        borderColor: PRIMARY_COLOR,
-        borderWidth: StyleSheet.hairlineWidth,
-
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 5,
-            height: 6,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    typeSelectorButton: {
-        width: "50%",
-        height: "100%",
-
-        justifyContent: "center",
-        alignItems: "center",
-
-        // backgroundColor: "blue",
-    },
-    typeSelectorLabel: {
-        fontSize: 18,
-    },
     remindersListContainer: {
         height: height * 0.6,
 

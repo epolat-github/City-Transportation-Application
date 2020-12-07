@@ -35,3 +35,35 @@ export const menuNames = [
     "Card",
     "Settings",
 ];
+
+export const busLine = [427, 336, 123, 274, 128, 568];
+
+export const stations = [13306, 12356, 84602, 14874, 23568, 23457, 23475];
+
+export const busInformation = [
+    {
+        line: 427,
+        estimatedTime: 9,
+        passengerCount: 16,
+    },
+    {
+        line: 427,
+        estimatedTime: 9,
+        passengerCount: 16,
+    },
+    {
+        line: 427,
+        estimatedTime: 9,
+        passengerCount: 16,
+    },
+    {
+        line: 427,
+        estimatedTime: 9,
+        passengerCount: 16,
+    },
+    {
+        line: 427,
+        estimatedTime: 9,
+        passengerCount: 16,
+    },
+];

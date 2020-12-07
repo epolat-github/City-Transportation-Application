@@ -5,22 +5,50 @@ import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const ShowATMOverlay = ({ isVisible, cancelAction, submitAction, mode }) => {
+const ShowATMOverlay = ({
+    isVisible,
+    cancelAction,
+    submitAction,
+    mode,
+    marker,
+}) => {
     return (
         <Modal animationType="fade" transparent={true} visible={isVisible}>
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <MapView
                         style={{ width: "100%", height: "100%" }}
-                        initialRegion={{
-                            latitude: 39.921323,
-                            longitude: 32.861323,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421,
-                        }}
-                    />
+                        initialRegion={
+                            marker !== undefined
+                                ? {
+                                      latitude: marker.lat,
+                                      longitude: marker.long,
+                                      latitudeDelta: 0.0922,
+                                      longitudeDelta: 0.0421,
+                                  }
+                                : {
+                                      latitude: 39.921323,
+                                      longitude: 32.861323,
+                                      latitudeDelta: 0.0922,
+                                      longitudeDelta: 0.0421,
+                                  }
+                        }
+                    >
+                        {marker !== undefined && (
+                            <Marker
+                                key={`${marker.lat},${marker.long}`}
+                                coordinate={{
+                                    latitude: marker.lat,
+                                    longitude: marker.long,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
+                                }}
+                            />
+                        )}
+                    </MapView>
                     <View style={styles.actionButtonsContainer}>
                         <Button
                             style={styles.actionButtons}

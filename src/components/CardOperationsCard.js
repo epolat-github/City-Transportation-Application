@@ -24,11 +24,15 @@ const CardOperationsCard = ({
             <View style={styles.contentContainer}>
                 <View style={styles.informationContainer}>
                     <Text style={styles.informationLabel}>Card ID:</Text>
-                    <Text style={styles.informationText}>{cardNumber}</Text>
+                    <Text style={styles.informationText}>
+                        {"\t\t      " + cardNumber}
+                    </Text>
                 </View>
                 <View style={styles.informationContainer}>
                     <Text style={styles.informationLabel}>Card Alias:</Text>
-                    <Text style={styles.informationText}>{cardAlias}</Text>
+                    <Text style={styles.informationText}>
+                        {"\t\t" + cardAlias}
+                    </Text>
                 </View>
                 <View style={styles.informationContainer}>
                     <Text style={styles.informationLabel}>Card Balance:</Text>
