@@ -20,23 +20,82 @@ const CustomizableMenuOverlay = ({
     submitAction,
     mode,
 }) => {
+    const [reminderName, setReminderName] = useState("");
+    const [reminderLine, setReminderLine] = useState("");
+    const [reminderStation, setReminderStation] = useState("");
+    const [reminderTime, setReminderTime] = useState("");
+    const [error, setError] = useState(false);
+
+    const formValidation = () =>
+        reminderName !== "" &&
+        reminderLine !== "" &&
+        reminderStation !== "" &&
+        reminderTime !== "";
+
+    const clear = () => {
+        setReminderName("");
+        setReminderLine("");
+        setReminderStation("");
+        setReminderTime("");
+        setError(false);
+    };
+
+    const submit = () => {
+        if (!formValidation()) {
+            setError(true);
+            return;
+        }
+        submitAction(reminderName, reminderLine, reminderStation, reminderTime);
+        clear();
+    };
+
+    const cancel = () => {
+        clear();
+        cancelAction();
+    };
+
     return (
         <Modal animationType="fade" transparent={true} visible={isVisible}>
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <Text style={styles.heading}>Add New Reminder</Text>
                     <View style={styles.formContainer}>
-                        <TextInput mode="outlined" label="Line Number" />
-                        <TextInput mode="outlined" label="Station Number" />
-                        <TextInput mode="outlined" label="Desired Time" />
+                        <TextInput
+                            error={error}
+                            value={reminderName}
+                            onChangeText={(text) => setReminderName(text)}
+                            mode="outlined"
+                            label="Reminder Name"
+                        />
+                        <TextInput
+                            error={error}
+                            value={reminderLine}
+                            onChangeText={(text) => setReminderLine(text)}
+                            mode="outlined"
+                            label="Line Number"
+                        />
+                        <TextInput
+                            error={error}
+                            value={reminderStation}
+                            onChangeText={(text) => setReminderStation(text)}
+                            mode="outlined"
+                            label="Station Number"
+                        />
+                        <TextInput
+                            error={error}
+                            value={reminderTime}
+                            onChangeText={(text) => setReminderTime(text)}
+                            mode="outlined"
+                            label="Desired Time"
+                        />
                     </View>
 
                     <Button
-                        onPress={submitAction}
+                        onPress={submit}
                         mode="contained"
                         color="green"
                         icon="check"
-                        style={{ alignSelf: "center" }}
+                        style={{ alignSelf: "center", marginTop: 10 }}
                     >
                         Save
                     </Button>
@@ -45,7 +104,7 @@ const CustomizableMenuOverlay = ({
                     <Icon
                         size={30}
                         style={styles.actionButtons}
-                        onPress={cancelAction}
+                        onPress={cancel}
                         color="red"
                         name="close"
                     />
@@ -68,7 +127,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         width: wp("90%"),
-        height: hp("60%"),
+        height: hp("65%"),
         // margin: 20,
         backgroundColor: "#F8F8F8",
         borderRadius: wp("5%"),

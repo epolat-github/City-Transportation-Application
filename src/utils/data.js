@@ -49,18 +49,6 @@ export const reminderList = [
         reminderStation: 13317,
         reminderTime: "19:30",
     },
-    {
-        reminderName: "Reminder-3",
-        reminderLine: 317,
-        reminderStation: 13236,
-        reminderTime: "10:15",
-    },
-    {
-        reminderName: "Reminder-4",
-        reminderLine: 202,
-        reminderStation: 22311,
-        reminderTime: "12:45",
-    },
 ];
 
 export const busLine = [427, 336, 123, 274, 128, 568];
@@ -70,27 +58,27 @@ export const stations = [13306, 12356, 84602, 14874, 23568, 23457, 23475];
 export const busInformation = [
     {
         line: 427,
-        estimatedTime: 9,
+        estimatedTime: 26,
         passengerCount: 16,
     },
     {
-        line: 427,
-        estimatedTime: 9,
-        passengerCount: 16,
+        line: 317,
+        estimatedTime: 13,
+        passengerCount: 11,
     },
     {
-        line: 427,
-        estimatedTime: 9,
-        passengerCount: 16,
+        line: 213,
+        estimatedTime: 2,
+        passengerCount: 14,
     },
     {
-        line: 427,
-        estimatedTime: 9,
-        passengerCount: 16,
+        line: 571,
+        estimatedTime: 18,
+        passengerCount: 3,
     },
     {
-        line: 427,
-        estimatedTime: 9,
-        passengerCount: 16,
+        line: 575,
+        estimatedTime: 34,
+        passengerCount: 20,
     },
 ];

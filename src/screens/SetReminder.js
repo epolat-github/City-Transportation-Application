@@ -6,11 +6,13 @@ import SetReminderOverlay from "../components/SetReminderOverlay";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import TypeSelector from "../components/TypeSelector";
 import { reminderList } from "../utils/data";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const ReminderItem = ({ reminder }) => {
+const ReminderItem = ({ reminder, onRemove }) => {
     return (
         <View style={styles.reminderItem}>
             <Icon
+                onPress={onRemove}
                 style={{ position: "absolute", right: 10, top: 10 }}
                 name="delete"
                 size={25}
@@ -33,16 +35,41 @@ const ReminderItem = ({ reminder }) => {
 const SetReminder = () => {
     const [isAddOverlayVisible, setIsAddOverlayVisible] = useState(false);
     const [selectedType, setSelectedType] = useState(0);
+    const [data, setData] = useState(reminderList);
 
     const toggleOverlay = () => {
         setIsAddOverlayVisible((prev) => !prev);
+    };
+
+    const removeReminder = (index) => {
+        const removedData = [...data];
+        removedData.splice(index, 1);
+        setData(removedData);
+    };
+
+    const addReminder = (
+        reminderName,
+        reminderLine,
+        reminderStation,
+        reminderTime
+    ) => {
+        toggleOverlay();
+        setData((prev) => [
+            ...prev,
+            {
+                reminderName,
+                reminderLine,
+                reminderStation,
+                reminderTime,
+            },
+        ]);
     };
 
     return (
         <View style={styles.container}>
             <SetReminderOverlay
                 isVisible={isAddOverlayVisible}
-                submitAction={toggleOverlay}
+                submitAction={addReminder}
                 cancelAction={toggleOverlay}
             />
             <TypeSelector
@@ -50,9 +77,10 @@ const SetReminder = () => {
                 onPress={(index) => setSelectedType(index)}
             />
             <View style={styles.remindersListContainer}>
-                {reminderList.map((reminder, index) => (
+                {data.map((reminder, index) => (
                     <ReminderItem
                         key={`${reminder.reminderName}-${index}`}
+                        onRemove={() => removeReminder(index)}
                         reminder={reminder}
                     />
                 ))}
@@ -96,7 +124,7 @@ const styles = StyleSheet.create({
     },
     reminderItem: {
         backgroundColor: "#fff",
-        height: 90,
+        height: 110,
         width: "80%",
 
         alignSelf: "center",
@@ -113,6 +141,10 @@ const styles = StyleSheet.create({
 
         paddingLeft: 10,
         paddingTop: 5,
+        paddingBottom: 10,
+
+        flexDirection: "column",
+        justifyContent: "space-between",
     },
     reminderName: {
         fontSize: 17,
