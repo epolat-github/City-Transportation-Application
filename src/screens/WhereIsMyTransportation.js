@@ -13,6 +13,7 @@ import { busLine, stations, busInformation } from "../utils/data";
 import { width, height, PRIMARY_COLOR } from "../utils/theme";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ShowATMOverlay from "../components/ShowATMOverlay";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 if (Platform.OS === "android") {
     if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -50,57 +51,61 @@ const WhereIsMyTransportation = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <ShowATMOverlay
-                isVisible={showOverlay}
-                cancelAction={() => setShowOverlay(false)}
-                marker={{
-                    lat: 39.954885,
-                    long: 32.763928,
-                }}
-            />
-            <View style={{ height: height * 0.1, justifyContent: "center" }}>
-                <TypeSelector
-                    selectedIndex={selectedType}
-                    onPress={(index) => setSelectedType(index)}
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.container}>
+                <ShowATMOverlay
+                    isVisible={showOverlay}
+                    cancelAction={() => setShowOverlay(false)}
+                    marker={{
+                        lat: 39.954885,
+                        long: 32.763928,
+                    }}
                 />
-            </View>
-            <View style={styles.contentContainer}>
-                <List.Accordion
-                    title="Line Selection"
-                    left={(props) => <List.Icon {...props} icon="bus" />}
-                    onPress={_listToggleHandler}
+                <View
+                    style={{ height: height * 0.1, justifyContent: "center" }}
                 >
-                    {busLine.map((lineName, index) => (
-                        <List.Item
-                            key={`${lineName}-${index}`}
-                            title={lineName}
-                        />
-                    ))}
-                </List.Accordion>
-                <List.Accordion
-                    title="Station Selection"
-                    left={(props) => <List.Icon {...props} icon="stop" />}
-                    onPress={_listToggleHandler}
-                >
-                    {stations.map((stationName, index) => (
-                        <List.Item
-                            key={`${stationName}-${index}`}
-                            title={stationName}
-                        />
-                    ))}
-                </List.Accordion>
-                <ScrollView>
-                    {busInformation.map((bus, index) => (
-                        <BusIndicator
-                            key={`${bus.line}-${index}`}
-                            data={bus}
-                            openMap={() => setShowOverlay(true)}
-                        />
-                    ))}
-                </ScrollView>
+                    <TypeSelector
+                        selectedIndex={selectedType}
+                        onPress={(index) => setSelectedType(index)}
+                    />
+                </View>
+                <View style={styles.contentContainer}>
+                    <List.Accordion
+                        title="Line Selection"
+                        left={(props) => <List.Icon {...props} icon="bus" />}
+                        onPress={_listToggleHandler}
+                    >
+                        {busLine.map((lineName, index) => (
+                            <List.Item
+                                key={`${lineName}-${index}`}
+                                title={lineName}
+                            />
+                        ))}
+                    </List.Accordion>
+                    <List.Accordion
+                        title="Station Selection"
+                        left={(props) => <List.Icon {...props} icon="stop" />}
+                        onPress={_listToggleHandler}
+                    >
+                        {stations.map((stationName, index) => (
+                            <List.Item
+                                key={`${stationName}-${index}`}
+                                title={stationName}
+                            />
+                        ))}
+                    </List.Accordion>
+                    <ScrollView>
+                        {busInformation.map((bus, index) => (
+                            <BusIndicator
+                                key={`${bus.line}-${index}`}
+                                data={bus}
+                                openMap={() => setShowOverlay(true)}
+                            />
+                        ))}
+                    </ScrollView>
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 

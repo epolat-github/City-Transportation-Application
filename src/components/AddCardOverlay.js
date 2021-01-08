@@ -7,21 +7,69 @@ import {
 } from "react-native-responsive-screen";
 
 const AddCardOverlay = ({ isVisible, cancelAction, submitAction, mode }) => {
+    const [cardNumber, setCardNumber] = useState("");
+    const [cardAlias, setCardAlias] = useState("");
+    const [cardName, setCardName] = useState("");
+
+    const [error, setError] = useState(false);
+
+    const clear = () => {
+        setCardNumber("");
+        setCardAlias("");
+        setCardName("");
+        setError(false);
+    };
+
+    const formValidation = () =>
+        cardNumber !== "" && cardAlias !== "" && cardName !== "";
+
+    const _onSubmit = () => {
+        if (!formValidation()) {
+            setError(true);
+            return;
+        }
+        submitAction(cardName, cardAlias, Number(cardNumber));
+        clear();
+    };
+
+    const cancel = () => {
+        clear();
+        cancelAction();
+    };
+
     return (
         <Modal animationType="fade" transparent={true} visible={isVisible}>
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <Text style={styles.heading}>Add New Card</Text>
                     <View style={styles.formContainer}>
-                        <TextInput label="Card Number" mode="outlined" />
-                        <TextInput label="Card Name" mode="outlined" />
-                        <TextInput label="Card Alias" mode="outlined" />
+                        <TextInput
+                            error={error}
+                            value={cardNumber}
+                            onChangeText={(text) => setCardNumber(text)}
+                            label="Card Number"
+                            mode="outlined"
+                        />
+                        <TextInput
+                            error={error}
+                            value={cardName}
+                            onChangeText={(text) => setCardName(text)}
+                            label="Card Name"
+                            mode="outlined"
+                        />
+                        <TextInput
+                            error={error}
+                            value={cardAlias}
+                            onChangeText={(text) => setCardAlias(text)}
+                            label="Card Alias"
+                            mode="outlined"
+                        />
                     </View>
 
                     <View style={styles.actionButtonsContainer}>
                         <Button
                             style={styles.actionButtons}
-                            onPress={cancelAction}
+                            onPress={cancel}
                             mode="contained"
                             color="red"
                             icon="cancel"
@@ -30,7 +78,7 @@ const AddCardOverlay = ({ isVisible, cancelAction, submitAction, mode }) => {
                         </Button>
                         <Button
                             style={styles.actionButtons}
-                            onPress={submitAction}
+                            onPress={_onSubmit}
                             mode="contained"
                             color="green"
                             icon="check"

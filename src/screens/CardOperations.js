@@ -1,15 +1,51 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import {
+    View,
+    StyleSheet,
+    ScrollView,
+    Platform,
+    UIManager,
+    LayoutAnimation,
+} from "react-native";
 import { Text, Button } from "react-native-paper";
 import { cardData } from "../utils/data";
 import { height, width } from "../utils/theme";
 import CardOperationsCard from "../components/CardOperationsCard";
 import AddCardOverlay from "../components/AddCardOverlay";
 import ShowATMOverlay from "../components/ShowATMOverlay";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+if (Platform.OS === "android") {
+    if (UIManager.setLayoutAnimationEnabledExperimental) {
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+}
 
 const CardOperations = () => {
     const [isShowATMVisible, setIsShowATMVisible] = useState(false);
     const [isAddCardVisible, setIsAddCardVisible] = useState(false);
+    const [data, setData] = useState(cardData);
+
+    const addCard = (cardName, cardAlias, cardNumber, cardBalance = 0) => {
+        setIsAddCardVisible(false);
+        setData((prev) => [
+            ...prev,
+            {
+                cardName,
+                cardAlias,
+                cardNumber,
+                cardBalance,
+            },
+        ]);
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    };
+
+    const removeCard = (index) => {
+        const removedData = [...data];
+        removedData.splice(index, 1);
+        setData(removedData);
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    };
 
     return (
         <View style={styles.container}>
@@ -22,7 +58,7 @@ const CardOperations = () => {
             <AddCardOverlay
                 isVisible={isAddCardVisible}
                 cancelAction={() => setIsAddCardVisible(false)}
-                submitAction={() => setIsAddCardVisible(false)}
+                submitAction={addCard}
             />
 
             <View style={styles.buttonsContainer}>
@@ -43,27 +79,28 @@ const CardOperations = () => {
                 </Button>
             </View>
 
-            <View style={styles.cardsContainer}>
-                {/* <Text style={styles.cardContainerHeading}>Card List</Text> */}
-                <ScrollView
-                    style={{ width: "100%", height: "100%" }}
-                    contentContainerStyle={{
-                        alignItems: "center",
-                        paddingBottom: 50,
-                    }}
-                    showsVerticalScrollIndicator={false}
-                >
-                    {cardData.map((card, index) => (
-                        <CardOperationsCard
-                            key={`card${index}`}
-                            cardName={card.cardName}
-                            cardAlias={card.cardAlias}
-                            cardNumber={card.cardNumber}
-                            cardBalance={card.cardBalance}
-                        />
-                    ))}
-                </ScrollView>
-            </View>
+            {/* <View style={styles.cardsContainer}> */}
+            {/* <Text style={styles.cardContainerHeading}>Card List</Text> */}
+            <ScrollView
+                style={{ width: "100%" }}
+                contentContainerStyle={{
+                    alignItems: "center",
+                    // paddingBottom: 50,
+                }}
+                showsVerticalScrollIndicator={false}
+            >
+                {data.map((card, index) => (
+                    <CardOperationsCard
+                        key={`card${index}`}
+                        cardName={card.cardName}
+                        cardAlias={card.cardAlias}
+                        cardNumber={card.cardNumber}
+                        cardBalance={card.cardBalance}
+                        onRemove={() => removeCard(index)}
+                    />
+                ))}
+            </ScrollView>
+            {/* </View> */}
         </View>
     );
 };

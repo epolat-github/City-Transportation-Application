@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import NavigationContainer from "./src/navigation/NavigationContainer";
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import { PRIMARY_COLOR } from "./src/utils/theme";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const theme = {
     ...DefaultTheme,
@@ -18,7 +19,10 @@ const theme = {
 export default function App() {
     return (
         <PaperProvider theme={theme}>
-            <NavigationContainer />
+            <SafeAreaProvider>
+                <StatusBar style="dark" />
+                <NavigationContainer />
+            </SafeAreaProvider>
         </PaperProvider>
     );
 }

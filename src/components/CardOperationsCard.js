@@ -10,6 +10,7 @@ const CardOperationsCard = ({
     cardAlias,
     cardBalance,
     cardNumber,
+    onRemove,
 }) => {
     return (
         <View style={styles.container}>
@@ -19,7 +20,7 @@ const CardOperationsCard = ({
                 name="delete"
                 size={30}
                 color="tomato"
-                onPress={() => Alert.alert(null, `${cardName} is deleted!`)}
+                onPress={onRemove}
             />
             <View style={styles.contentContainer}>
                 <View style={styles.informationContainer}>
