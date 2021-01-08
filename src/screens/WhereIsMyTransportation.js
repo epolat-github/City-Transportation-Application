@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, StyleSheet, LayoutAnimation, ScrollView } from "react-native";
+import {
+    View,
+    StyleSheet,
+    LayoutAnimation,
+    ScrollView,
+    Platform,
+    UIManager,
+} from "react-native";
 import { Text, List } from "react-native-paper";
 import TypeSelector from "../components/TypeSelector";
 import { busLine, stations, busInformation } from "../utils/data";
@@ -7,11 +14,17 @@ import { width, height, PRIMARY_COLOR } from "../utils/theme";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ShowATMOverlay from "../components/ShowATMOverlay";
 
+if (Platform.OS === "android") {
+    if (UIManager.setLayoutAnimationEnabledExperimental) {
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+}
+
 const BusIndicator = ({ data, openMap }) => {
     return (
         <View style={styles.busIndicator}>
             <Text>{`Line Number: \t\t${data.line}`}</Text>
-            <Text>{`Estimated Time: \t\t${data.estimatedTime}`}</Text>
+            <Text>{`Estimated Time: \t\t${data.estimatedTime} mins.`}</Text>
             <Text>{`Passenger Count: \t${data.passengerCount}`}</Text>
             <Icon
                 style={{ position: "absolute", right: 10, top: 30 }}

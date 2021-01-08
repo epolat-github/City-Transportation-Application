@@ -5,33 +5,7 @@ import { height, width, PRIMARY_COLOR } from "../utils/theme";
 import SetReminderOverlay from "../components/SetReminderOverlay";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import TypeSelector from "../components/TypeSelector";
-
-const reminderList = [
-    {
-        reminderName: "Reminder-1",
-        reminderLine: 427,
-        reminderStation: 13317,
-        reminderTime: "09:30",
-    },
-    {
-        reminderName: "Reminder-1",
-        reminderLine: 427,
-        reminderStation: 13317,
-        reminderTime: "09:30",
-    },
-    {
-        reminderName: "Reminder-1",
-        reminderLine: 427,
-        reminderStation: 13317,
-        reminderTime: "09:30",
-    },
-    {
-        reminderName: "Reminder-1",
-        reminderLine: 427,
-        reminderStation: 13317,
-        reminderTime: "09:30",
-    },
-];
+import { reminderList } from "../utils/data";
 
 const ReminderItem = ({ reminder }) => {
     return (

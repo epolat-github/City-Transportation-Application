@@ -133,6 +133,11 @@ const CustomizableMenu = () => {
                         contentStyle={{
                             height: 45,
                             width: 140,
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                        labelStyle={{
+                            fontSize: 15,
                         }}
                         style={styles.editItemButton}
                         uppercase={false}
@@ -185,8 +190,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     editItemButton: {
-        justifyContent: "center",
-        alignItems: "center",
+        // justifyContent: "center",
+        // alignItems: "center",
     },
     item: {
         backgroundColor: "#fff",
